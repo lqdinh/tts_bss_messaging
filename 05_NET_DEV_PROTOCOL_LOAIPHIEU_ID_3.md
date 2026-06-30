@@ -75,17 +75,43 @@ Ví dụ OneBSS gửi bản tin `loaiphieu_id=3` với `ma_buoc = 3.2`:
 | `10245385` | `1.1 => 1.3 => 3.2 => 3.3 => 1.5 => 3.2 => 1.6 => 2.1 => 1.6 => 1.7` | OK |
 | `10245438` | `1.1 => 1.2 => 3.1 => 1.2 => 1.3 => 2.1 => 1.6 => 1.7` | OK |
 
-## Mermaid tổng quát
+## Mermaid theo từng case
+
+### Case A1 - User OneBSS giao sang bước `2.x`, `3.x`
 
 ```mermaid
 flowchart LR
-    A[TTS/NET gửi hoặc OneBSS user action] --> B[OneBSS tạo bản tin loaiphieu_id=3]
-    B --> C{ma_buoc kế tiếp}
-    C -->|1.x| D[donvi_nhan_id = đơn vị NET/TTS/ANM]
-    C -->|2.x| E[donvi_nhan_id = đơn vị OneBSS/VTT/CSHT theo CSHT]
-    C -->|3.x| F[donvi_nhan_id = đơn vị OneBSS/VTT/CSHT theo CSHT]
-    B --> G[donvi_xuly_id = đơn vị bước hiện tại/liền trước]
-    B --> H[donvi_giao_id = đơn vị phát sinh action giao]
+    A[User OneBSS thao tác giao phiếu] --> B[OneBSS tạo loaiphieu_id=3]
+    B --> C[ma_buoc = bước kế tiếp 2.x hoặc 3.x]
+    C --> D[donvi_nhan_id = đơn vị OneBSS/VTT/CSHT xử lý bước kế tiếp]
+    B --> E[donvi_giao_id = đơn vị của user thao tác]
+    B --> F[donvi_xuly_id = đơn vị bước hiện tại/liền trước]
+    B --> G[ma_nhanvien_xuly = user thao tác OneBSS]
+```
+
+### Case A2 - User OneBSS giao sang bước `1.x`
+
+```mermaid
+flowchart LR
+    A[User OneBSS thao tác giao phiếu] --> B[OneBSS tạo loaiphieu_id=3]
+    B --> C[ma_buoc = bước kế tiếp 1.x]
+    C --> D[donvi_nhan_id = đơn vị NET/TTS/ANM xử lý bước kế tiếp]
+    B --> E[donvi_giao_id = đơn vị của user thao tác]
+    B --> F[donvi_xuly_id = đơn vị bước hiện tại/liền trước]
+    B --> G[ma_nhanvien_xuly = user thao tác OneBSS]
+```
+
+### Case B - OneBSS auto callback sau `loaiphieu_id=2`
+
+```mermaid
+flowchart LR
+    A[TTS gửi loaiphieu_id=2] --> B[ESB gọi OneBSS/DB]
+    B --> C[OneBSS tạo callback loaiphieu_id=3]
+    C --> D[ma_buoc = bước kế tiếp theo yêu cầu]
+    D --> E[donvi_nhan_id = đơn vị xử lý bước kế tiếp theo ma_csht]
+    C --> F[donvi_giao_id = đơn vị phiếu/bước trước]
+    C --> G[donvi_xuly_id = đơn vị bước hiện tại/liền trước]
+    C --> H[ma_nhanvien_xuly = OneBSS_DHXLSC]
 ```
 
 ## Lưu ý tích hợp
