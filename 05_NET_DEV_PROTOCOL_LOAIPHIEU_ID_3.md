@@ -21,11 +21,13 @@ Nguyên tắc quan trọng nhất:
 
 ## Phân loại bước
 
-| Nhóm bước | Phía xử lý | Cách hiểu `donvi_nhan_id` |
-|---|---|---|
-| `1.x` | NET/TTS/ANM | Đơn vị phía NET/TTS/ANM nhận bước kế tiếp |
-| `2.x` | APP/OneBSS/VTT | Đơn vị APP/OneBSS/VTT nhận bước kế tiếp theo cấu hình CSHT |
-| `3.x` | WEB/OneBSS/VTT | Đơn vị WEB/OneBSS/VTT nhận bước kế tiếp theo cấu hình CSHT |
+| Nhóm bước | Phía xử lý nghiệp vụ | Phương tiện thao tác | Cách hiểu `donvi_nhan_id` |
+|---|---|---|---|
+| `1.x` | NET/TTS/ANM | TTS/NET | Đơn vị phía NET/TTS/ANM nhận bước kế tiếp |
+| `2.x` | OneBSS/VTT/CSHT | App hoặc Web | Đơn vị OneBSS/VTT/CSHT nhận bước kế tiếp theo cấu hình CSHT |
+| `3.x` | OneBSS/VTT/CSHT | App hoặc Web | Đơn vị OneBSS/VTT/CSHT nhận bước kế tiếp theo cấu hình CSHT |
+
+Lưu ý: App/Web chỉ là phương tiện thao tác hoặc kênh giao diện. Không dùng App/Web để phân loại bản chất nghiệp vụ của nhóm bước `2.x` và `3.x`.
 
 ## Cách đọc một lần chuyển bước
 
@@ -72,8 +74,8 @@ flowchart LR
     A[TTS/NET gửi hoặc OneBSS user action] --> B[OneBSS tạo bản tin loaiphieu_id=3]
     B --> C{ma_buoc kế tiếp}
     C -->|1.x| D[donvi_nhan_id = đơn vị NET/TTS/ANM]
-    C -->|2.x| E[donvi_nhan_id = đơn vị APP/OneBSS/VTT theo CSHT]
-    C -->|3.x| F[donvi_nhan_id = đơn vị WEB/OneBSS/VTT theo CSHT]
+    C -->|2.x| E[donvi_nhan_id = đơn vị OneBSS/VTT/CSHT theo CSHT]
+    C -->|3.x| F[donvi_nhan_id = đơn vị OneBSS/VTT/CSHT theo CSHT]
     B --> G[donvi_xuly_id = đơn vị bước hiện tại/liền trước]
     B --> H[donvi_giao_id = đơn vị phát sinh action giao]
 ```
