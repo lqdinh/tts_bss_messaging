@@ -27,7 +27,15 @@ Nguyên tắc quan trọng nhất:
 | `2.x` | OneBSS/VTT/CSHT | App hoặc Web | Đơn vị OneBSS/VTT/CSHT nhận bước kế tiếp theo cấu hình CSHT |
 | `3.x` | OneBSS/VTT/CSHT | App hoặc Web | Đơn vị OneBSS/VTT/CSHT nhận bước kế tiếp theo cấu hình CSHT |
 
-Lưu ý: App/Web chỉ là phương tiện thao tác hoặc kênh giao diện. Không dùng App/Web để phân loại bản chất nghiệp vụ của nhóm bước `2.x` và `3.x`.
+## Phân loại case bản tin
+
+| Case | Hướng phát sinh | Bước kế tiếp | Ý nghĩa bản tin | `ma_nhanvien_xuly` | `donvi_giao_id` | `donvi_nhan_id` |
+|---|---|---|---|---|---|---|
+| A1 | OneBSS gửi sau action giao phiếu trên UI | `2.x`, `3.x` | User OneBSS chuyển phiếu sang bước xử lý phía OneBSS/VTT/CSHT | User thao tác OneBSS | Đơn vị của user thao tác | Đơn vị OneBSS/VTT/CSHT xử lý bước kế tiếp |
+| A2 | OneBSS gửi sau action giao phiếu trên UI | `1.x` | User OneBSS chuyển phiếu sang bước xử lý phía NET/TTS/ANM | User thao tác OneBSS | Đơn vị của user thao tác | Đơn vị NET/TTS/ANM xử lý bước kế tiếp |
+| B | OneBSS auto callback sau khi nhận TTS `loaiphieu_id=2` | Theo bước TTS yêu cầu | OneBSS xác nhận "tạm ứng", chưa có nhân viên xử lý thực tế | `OneBSS_DHXLSC` | Đơn vị của phiếu/bước trước | Đơn vị xử lý bước kế tiếp theo `ma_csht` |
+
+Trong cả ba case, `ma_buoc` luôn là bước kế tiếp. Vì vậy phía NET/TTS nên đọc `donvi_nhan_id` theo `ma_buoc`, còn `donvi_xuly_id` là ngữ cảnh bước đang xử lý/liền trước để render timeline.
 
 ## Cách đọc một lần chuyển bước
 
